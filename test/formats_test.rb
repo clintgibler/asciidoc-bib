@@ -8,7 +8,7 @@ require 'test_helper'
 describe AsciidocBib do
 
   def check_complete_citation style, line, result, links = false
-    p = Processor.new BibTeX.open('test/data/test.bib'), links, style
+    p = Processor.new BibTeX.open('test/data/test.bib'), links, style, :appearance
     p.citations.add_from_line line
     p.complete_citation(p.citations.retrieve_citations(line).first).must_equal result
   end
@@ -112,9 +112,8 @@ describe AsciidocBib do
   end
 
   it "provides method to combine consecutive numbers" do
-    p = Processor.new BibTeX.open('test/data/test.bib'), nil, :apa
+    p = Processor.new BibTeX.open('test/data/test.bib'), nil, :apa, :appearance
     p.combine_consecutive_numbers("1,2,3").must_equal "1-3"
     p.combine_consecutive_numbers("1,2,3,5,7,8,9,12").must_equal "1-3, 5, 7-9, 12"
   end
 end
-
